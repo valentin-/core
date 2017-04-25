@@ -35,7 +35,7 @@ $GLOBALS['TL_DCA']['tl_iso_producttype']['fields']['coupon_info']['input_field_c
 
     $code .= str_pad('1', $dc->activeRecord->coupon_numbers, '0', STR_PAD_LEFT) . '-';
 
-    $code .= \Isotope\Model\Product\Coupon::generateRandomCode(
+    $code .= \Isotope\Model\Coupon::generateRandomCode(
         str_split($dc->activeRecord->coupon_alphabet),
         $dc->activeRecord->coupon_chars
     );

@@ -132,7 +132,12 @@ $GLOBALS['TL_DCA']['tl_iso_coupon'] = array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_iso_coupon']['status'],
             'filter'                  => true,
-            'options'                 => ['draft', 'available', 'redeemed', 'cancelled'],
+            'options'                 => [
+                \Isotope\Model\Coupon::STATUS_DRAFT,
+                \Isotope\Model\Coupon::STATUS_AVAILABLE,
+                \Isotope\Model\Coupon::STATUS_REDEEMED,
+                \Isotope\Model\Coupon::STATUS_CANCELLED,
+            ],
             'reference'               => &$GLOBALS['TL_LANG']['tl_iso_coupon']['status'],
             'sql'                     => "varchar(16) NOT NULL",
         ),

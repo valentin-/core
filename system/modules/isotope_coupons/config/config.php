@@ -33,3 +33,8 @@ $GLOBALS['ISO_HOOKS']['postCheckout'][] = array('Isotope\EventListener\PostCheck
  * Products
  */
 \Isotope\Model\Product::registerModelType('coupon', 'Isotope\Model\Product\Coupon');
+
+/**
+ * Models
+ */
+$GLOBALS['TL_MODELS']['tl_iso_coupon'] = 'Isotope\Model\Coupon';
