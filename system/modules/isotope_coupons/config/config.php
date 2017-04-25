@@ -26,13 +26,14 @@ array_insert($GLOBALS['BE_MOD']['isotope'], 2, [
 /**
  * Hooks
  */
-$GLOBALS['ISO_HOOKS']['postCheckout'][] = array('Isotope\EventListener\PostCheckoutCoupons', 'onPostCheckout');
+$GLOBALS['ISO_HOOKS']['postCheckout'][] = ['Isotope\EventListener\CouponListener', 'onPostCheckout'];
+$GLOBALS['ISO_HOOKS']['postOrderStatusUpdate'][] = ['Isotope\EventListener\CouponListener', 'onPostOrderStatusUpdate'];
 
 
 /**
  * Products
  */
-\Isotope\Model\Product::registerModelType('coupon', 'Isotope\Model\Product\Coupon');
+\Isotope\Model\Product::registerModelType('coupon', 'Isotope\Model\Product\CouponProduct');
 
 /**
  * Models

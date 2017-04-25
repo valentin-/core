@@ -23,6 +23,7 @@ $GLOBALS['TL_LANG']['tl_iso_coupon']['status']          = ['Status'];
 /**
  * Operations
  */
+$GLOBALS['TL_LANG']['tl_iso_coupon']['show']           = ['Coupon details', 'Show details of coupon ID %s'];
 $GLOBALS['TL_LANG']['tl_iso_coupon']['check']          = ['Mark as redeemed', 'Mark coupon code ID %s as redeemed'];
 $GLOBALS['TL_LANG']['tl_iso_coupon']['uncheck']        = ['Mark as available', 'Mark coupon code ID %s as available'];
 
