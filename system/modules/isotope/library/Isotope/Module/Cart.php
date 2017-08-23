@@ -54,8 +54,7 @@ class Cart extends AbstractProductCollection
 
         if (isset($GLOBALS['ISO_HOOKS']['compileCart']) && is_array($GLOBALS['ISO_HOOKS']['compileCart'])) {
             foreach ($GLOBALS['ISO_HOOKS']['compileCart'] as $callback) {
-                $objCallback = \System::importStatic($callback[0]);
-                $strCustom .= $objCallback->{$callback[1]}($this);
+                $strCustom .= \System::importStatic($callback[0])->{$callback[1]}($this);
             }
         }
 
@@ -111,7 +110,7 @@ class Cart extends AbstractProductCollection
     ) {
         $data = parent::updateItemTemplate($collection, $item, $data, $quantity, $hasChanges);
 
-        if (isset($data['configuration'])) {
+        if (isset($data['configuration']) && !$item->hasErrors()) {
             list($baseUrl,) = explode('?', $data['href'], 2);
             $data['edit_href']  = Url::addQueryString('collection_item=' . $item->id, $baseUrl);
             $data['edit_title'] = specialchars(sprintf($GLOBALS['TL_LANG']['MSC']['editProductLinkTitle'], $data['name']));
