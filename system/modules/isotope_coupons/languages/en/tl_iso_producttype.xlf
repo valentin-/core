@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/cs02/xliff-core-1.2-strict.xsd">
+  <file datatype="plaintext" original="system/modules/isotope/languages/en/default.xlf" source-language="en">
+    <body>
+      <trans-unit id="tl_iso_producttype.coupon_prefix.0">
+        <source>Prefix</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_prefix.1">
+        <source>You can optionally add a prefix to the coupon.</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_numbers.0">
+        <source>Coupon number length</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_numbers.1">
+        <source>Select the minimum length of the coupon number (not including coupon prefix).</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_alphabet.0">
+        <source>Allowed characters</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_alphabet.1">
+        <source>Enter all characters that are allowed in the coupon code (case sensitive).</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_chars.0">
+        <source>Code length</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_chars.1">
+        <source>Enter the length of the unique coupon code.</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_legend">
+        <source>Coupon Configuration</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_producttype.coupon_info">
+        <source><![CDATA[A coupon code is a dash-delimited combination of prefix, code number and several unique characters.<br>Live example (save to refresh): %s]]></source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/cs02/xliff-core-1.2-strict.xsd">
+  <file datatype="plaintext" original="system/modules/isotope/languages/en/default.xlf" source-language="en">
+    <body>
+      <trans-unit id="tl_iso_coupon.dateAdded.0">
+        <source>Added on</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.document_number.0">
+        <source>Order number</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.product_name.0">
+        <source>Product name</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.price.0">
+        <source>Price</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.owner.0">
+        <source>Owner</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.code.0">
+        <source>Code</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.status.0">
+        <source>Status</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.show.0">
+        <source>Coupon details</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.show.1">
+        <source>Show details of coupon ID %s</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.check.0">
+        <source>Mark as redeemed</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.check.1">
+        <source>Mark coupon code ID %s as redeemed</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.uncheck.0">
+        <source>Mark as available</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.uncheck.1">
+        <source>Mark coupon code ID %s as available</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.checkConfirm">
+        <source>Are you sure to mark this coupon code as REDEEMED?</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.uncheckConfirm">
+        <source>Are you sure to mark this coupon code as AVAILABLE?</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.codeUnavailable">
+        <source>not yet available</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.status.draft">
+        <source>Draft</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.status.available">
+        <source>Available</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.status.redeemend">
+        <source>Redeemed</source>
+      </trans-unit>
+      <trans-unit id="tl_iso_coupon.status.cancelled">
+        <source>Cancelled</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
