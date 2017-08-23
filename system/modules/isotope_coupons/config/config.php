@@ -28,6 +28,7 @@ array_insert($GLOBALS['BE_MOD']['isotope'], 2, [
  */
 $GLOBALS['ISO_HOOKS']['postCheckout'][] = ['Isotope\EventListener\CouponListener', 'onPostCheckout'];
 $GLOBALS['ISO_HOOKS']['postOrderStatusUpdate'][] = ['Isotope\EventListener\CouponListener', 'onPostOrderStatusUpdate'];
+$GLOBALS['ISO_HOOKS']['addCollectionToTemplate'][] = ['Isotope\EventListener\ProductCollectionListener', 'onAddCollectionToTemplate'];
 
 
 /**

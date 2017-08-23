@@ -39,6 +39,10 @@
                 <?php endforeach; ?>
             </ul>
             <?php endif; ?>
+            <?php if ($item['coupons']): ?>
+                <br><strong><?= $GLOBALS['TL_LANG']['MSC']['iso_coupon_codes'] ?></strong>
+                <?php foreach ($item['coupons'] as $i => $coupon) echo ($i>0 ? ', ' : '').$coupon->code; ?>
+            <?php endif; ?>
         </td>
         <td class="col_<?php echo $i++; ?> quantity">
         <?php if($this->isEditable): ?>
