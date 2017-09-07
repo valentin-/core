@@ -13,36 +13,57 @@
 namespace Isotope\Backend\Coupon;
 
 use Haste\Http\Response\HtmlResponse;
+use Isotope\Model\ProductCollectionItem;
 
 class Callback extends \Backend
 {
-    const CODE_FIELD = 3;
-
+    /** @noinspection MoreThanThreeArgumentsInspection */
     public function generateLabel($row, $label, \DataContainer $dc, $args)
     {
-        if ($args[self::CODE_FIELD] == '') {
-            $args[self::CODE_FIELD] = sprintf('<span style="color:#ccc">%s</span>', $GLOBALS['TL_LANG']['tl_iso_coupon']['codeUnavailable']);
-        } else {
-            switch ($row['status']) {
-                case 'draft':
-                    $color = '#ccc';
-                    break;
+        $fields = array_flip(array_values($GLOBALS['TL_DCA']['tl_iso_coupon']['list']['label']['fields']));
 
-                case 'available':
-                    $color = 'green';
-                    break;
+        if (isset($fields['document_number'])) {
+            $item = ProductCollectionItem::findByPk($row['product_collection_item']);
 
-                case 'redeemed':
-                default:
-                    $color = 'inherit';
-                    break;
+            if ($item instanceof ProductCollectionItem) {
+                $args[$fields['document_number']] = sprintf(
+                    '<a href="%s">%s</a>',
+                    \Backend::addToUrl('do=iso_orders&act=edit&id='.$item->pid),
+                    $args[$fields['document_number']]
+                );
+            }
+        }
 
-                case 'cancelled':
-                    $color = 'red';
-                    break;
+        if (isset($fields['code'])) {
+            if (empty($args[$fields['code']])) {
+                $code = sprintf(
+                    '<span style="color:#ccc">%s</span>',
+                    $GLOBALS['TL_LANG']['tl_iso_coupon']['codeUnavailable']
+                );
+            } else {
+                switch ($row['status']) {
+                    case 'draft':
+                        $color = '#ccc';
+                        break;
+
+                    case 'available':
+                        $color = 'green';
+                        break;
+
+                    case 'redeemed':
+                    default:
+                        $color = 'inherit';
+                        break;
+
+                    case 'cancelled':
+                        $color = 'red';
+                        break;
+                }
+
+                $code = sprintf('<span style="color:%s">%s</span>', $color, $row['code']);
             }
 
-            $args[self::CODE_FIELD] = sprintf('<span style="color:%s">%s</span>', $color, $row['code']);
+            $args[$fields['code']] = $code;
         }
 
         return $args;
@@ -84,7 +105,7 @@ class Callback extends \Backend
     public function toggleStatus($dc)
     {
         $coupon = \Database::getInstance()->prepare("SELECT * FROM tl_iso_coupon WHERE id=?")->execute($dc->id);
-        
+
         switch ($coupon->status) {
             case 'available':
                 \Database::getInstance()
@@ -108,5 +129,27 @@ class Callback extends \Backend
         }
 
         \Controller::redirect(\System::getReferer());
+    }
+
+    /**
+     * Mark coupons as cancelled if the order is deleted.
+     *
+     * @param \DataContainer $dc
+     */
+    public function onDeleteProductCollection(\DataContainer $dc)
+    {
+        $coupons = \Database::getInstance()->prepare("
+            SELECT id 
+            FROM tl_iso_coupon 
+            WHERE product_collection_item IN (
+                SELECT id FROM tl_iso_product_collection_item WHERE pid=?
+            )
+        ")->execute($dc->id);
+
+        if ($coupons->numRows > 0) {
+            \Database::getInstance()->prepare("
+                UPDATE tl_iso_coupon SET status=? WHERE id IN (".implode(',', $coupons->fetchEach('id')).")
+            ")->execute(\Isotope\Model\Coupon::STATUS_CANCELLED);
+        }
     }
 }

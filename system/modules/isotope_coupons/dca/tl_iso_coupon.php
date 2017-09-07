@@ -86,7 +86,7 @@ $GLOBALS['TL_DCA']['tl_iso_coupon'] = array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_iso_coupon']['dateAdded'],
             'sorting'                 => true,
-            'filter'                  => true,
+            'rangeFilter'             => true,
             'flag'                    => 6,
             'eval'                    => array('rgxp'=>'datim'),
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
