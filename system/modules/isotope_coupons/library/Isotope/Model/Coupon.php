@@ -59,6 +59,28 @@ class Coupon extends \Model
     }
 
     /**
+     * Find coupons by product collection ID.
+     *
+     * @param int $id
+     *
+     * @return \Contao\Model\Collection|null
+     */
+    public static function findByProductCollectionId($id)
+    {
+        $itemIds = \Database::getInstance()
+            ->prepare("SELECT id FROM tl_iso_product_collection_item WHERE pid=?")
+            ->execute($id)
+            ->fetchEach('id')
+        ;
+
+        if (empty($itemIds)) {
+            return null;
+        }
+
+        return static::findBy([static::$strTable.'.product_collection_item IN ('.implode(',', $itemIds).')'], []);
+    }
+
+    /**
      * Generates a random code with given length from given characters.
      *
      * @param array $chars

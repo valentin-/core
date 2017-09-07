@@ -13,6 +13,7 @@
 namespace Isotope\Backend\Coupon;
 
 use Haste\Http\Response\HtmlResponse;
+use Isotope\Model\Coupon;
 use Isotope\Model\ProductCollectionItem;
 
 class Callback extends \Backend
@@ -151,5 +152,60 @@ class Callback extends \Backend
                 UPDATE tl_iso_coupon SET status=? WHERE id IN (".implode(',', $coupons->fetchEach('id')).")
             ")->execute(\Isotope\Model\Coupon::STATUS_CANCELLED);
         }
+    }
+
+    /**
+     * Generate backend view for coupons inside order.
+     *
+     * @param \DataContainer $dc
+     */
+    public function generateOrderData($dc)
+    {
+        \System::loadLanguageFile('tl_iso_coupon');
+
+        $coupons = Coupon::findByProductCollectionId($dc->id);
+
+        if (null === $coupons) {
+            return '<p class="tl_info" style="margin-top: 10px;">'.$GLOBALS['TL_LANG']['tl_iso_product_collection']['coupon_empty'].'</p>';
+        }
+
+        $buffer = '
+<div>
+<table cellpadding="0" cellspacing="0" class="tl_show">
+  <thead>
+  <tr>
+      <td class="tl_bg"><span class="tl_label">'.$GLOBALS['TL_LANG']['tl_iso_coupon']['product_name'][0].'</span></td>  
+      <td class="tl_bg"><span class="tl_label">'.$GLOBALS['TL_LANG']['tl_iso_coupon']['code'][0].'</span></td>  
+      <td class="tl_bg"><span class="tl_label">'.$GLOBALS['TL_LANG']['tl_iso_coupon']['status'][0].'</span></td>
+      <td class="tl_bg">&nbsp;</td>
+    </tr>
+</thead>
+  <tbody>
+  ';
+
+        $i = 0;
+        $plabel = $GLOBALS['TL_LANG']['tl_iso_coupon']['show'];
+
+        /** @var Coupon $coupon */
+        foreach ($coupons as $coupon) {
+            $class = (++$i % 2) ? '' : ' class="tl_bg"';
+            $status = $GLOBALS['TL_LANG']['tl_iso_coupon']['status'][$coupon->status] ?: $coupon->status;
+
+            $buffer .= '
+  <tr>
+    <td' . $class . '>' . $coupon->product_name . ': </td>
+    <td' . $class . '>' . $coupon->code . '</td>
+    <td' . $class . '>' . $status . '</td>
+    <td' . $class . '>
+      <a href="'.\Backend::addToUrl('do=iso_coupons&act=show&id='.$coupon->id.'&popup=1').'" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.sprintf($plabel[1], $coupon->id).'\',\'url\':this.href});return false" class="show">'.\Image::getHtml('show.gif', $plabel[0]).'</a>    
+    </td>
+  </tr>';
+        }
+
+        $buffer .= '
+</tbody></table>
+</div>';
+
+        return $buffer;
     }
 }
