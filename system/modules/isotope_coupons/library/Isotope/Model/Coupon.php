@@ -19,6 +19,7 @@ namespace Isotope\Model;
  * @property int    $tstamp
  * @property int    $dateAdded
  * @property int    $product_collection_item
+ * @property int    $product_collection_id
  * @property string $document_number
  * @property string $product_name
  * @property float  $price

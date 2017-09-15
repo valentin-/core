@@ -20,6 +20,17 @@ $GLOBALS['TL_DCA']['tl_iso_product_collection']['config']['ondelete_callback'] =
 
 $GLOBALS['TL_DCA']['tl_iso_product_collection']['fields']['coupon_data'] = array
 (
-    'input_field_callback'  => array('Isotope\Backend\Coupon\Callback', 'generateOrderData'),
-    'eval'                  => array('doNotShow' => true),
+    'label'                 => &$GLOBALS['TL_LANG']['tl_iso_product_collection']['coupon_data'],
+    'inputType'             => 'dcaWizard',
+    'foreignTable'          => 'tl_iso_coupon',
+    'foreignField'          => 'product_collection_id',
+    'eval'                  => array
+    (
+        'fields'            => ['product_name', 'code', 'status'],
+        'showOperations'    => true,
+        'hideButton'        => true,
+        'emptyLabel'        => &$GLOBALS['TL_LANG']['tl_iso_product_collection']['coupon_empty'],
+        'tl_class'          => 'clr',
+        'doNotShow'         => true,
+    ),
 );

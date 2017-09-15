@@ -38,10 +38,10 @@ $GLOBALS['TL_DCA']['tl_iso_coupon'] = array
     (
         'sorting' => array
         (
-            'mode'                    => 2,
+            'mode'                    => 1,
             'fields'                  => array('dateAdded DESC'),
             'flag'                    => 1,
-            'panelLayout'             => 'filter;sort,search,limit'
+            'panelLayout'             => 'filter,search,limit'
         ),
         'label' => array
         (
@@ -90,6 +90,11 @@ $GLOBALS['TL_DCA']['tl_iso_coupon'] = array
             'flag'                    => 6,
             'eval'                    => array('rgxp'=>'datim'),
             'sql'                     => "int(10) unsigned NOT NULL default '0'"
+        ),
+        'product_collection_id' => array
+        (
+            'eval'                    => array('doNotShow' => true),
+            'sql'                     => "int(10) NOT NULL",
         ),
         'product_collection_item' => array
         (

@@ -44,6 +44,7 @@ class CouponListener
                         $coupon->tstamp = $time;
                         $coupon->dateAdded = $time;
                         $coupon->product_collection_item = $item->id;
+                        $coupon->product_collection_id = $order->getId();
                         $coupon->document_number = $order->getDocumentNumber();
                         $coupon->product_name = $item->name;
                         $coupon->price = $item->price;

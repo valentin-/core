@@ -73,29 +73,41 @@ class Callback extends \Backend
     /**
      * Return the "check" operation
      *
-     * @param array  $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
+     * @param array $row
      *
      * @return string
      */
-    public function checkIcon($row, $href, $label, $title, $icon, $attributes)
+    public function checkIcon($row)
     {
-        if ('redeemed' !== $row['status'] && 'available' !== $row['status']) {
-            return '';
+        switch ($row['status']) {
+            case 'available':
+                $icon       = 'system/modules/isotope_coupons/assets/check.png';
+                $label      = $GLOBALS['TL_LANG']['tl_iso_coupon']['check'][0];
+                $title      = sprintf($GLOBALS['TL_LANG']['tl_iso_coupon']['check'][1], $row['id']);
+                $attributes = 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['tl_iso_coupon']['checkConfirm'] . '\'))return false;Backend.getScrollOffset()"';
+                break;
+
+            case 'redeemed':
+                $icon       = 'system/modules/isotope_coupons/assets/uncheck.png';
+                $label      = $GLOBALS['TL_LANG']['tl_iso_coupon']['uncheck'][0];
+                $title      = sprintf($GLOBALS['TL_LANG']['tl_iso_coupon']['uncheck'][1], $row['id']);
+                $attributes = 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['tl_iso_coupon']['uncheckConfirm'] . '\'))return false;Backend.getScrollOffset()"';
+                break;
+
+            default:
+                return '';
         }
 
-        if ('redeemed' === $row['status']) {
-            $icon       = 'system/modules/isotope_coupons/assets/uncheck.png';
-            $label      = $GLOBALS['TL_LANG']['tl_iso_coupon']['uncheck'][0];
-            $title      = sprintf($GLOBALS['TL_LANG']['tl_iso_coupon']['uncheck'][1], $row['id']);
-            $attributes = 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['tl_iso_coupon']['uncheckConfirm'] . '\'))return false;Backend.getScrollOffset()"';
-        }
+        $href = sprintf(
+            '%s?do=iso_coupons&amp;act=check&amp;key=check&amp;id=%s&amp;return=%s.%s&amp;rt=%s',
+            TL_SCRIPT,
+            $row['id'],
+            \Input::get('do'),
+            \Input::get('id'),
+            REQUEST_TOKEN
+        );
 
-        return '<a href="'.\Backend::addToUrl($href . '&amp;id=' . $row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.\Image::getHtml($icon, $label).'</a> ';
+        return '<a href="'.$href.'" title="'.specialchars($title).'"'.$attributes.'>'.\Image::getHtml($icon, $label).'</a> ';
     }
 
     /**
@@ -105,19 +117,25 @@ class Callback extends \Backend
      */
     public function toggleStatus($dc)
     {
-        $coupon = \Database::getInstance()->prepare("SELECT * FROM tl_iso_coupon WHERE id=?")->execute($dc->id);
+        if (!isset($_GET['rt']) || !\RequestToken::validate(\Input::get('rt')))
+        {
+            \Session::getInstance()->set('INVALID_TOKEN_URL', \Environment::get('request'));
+            \Controller::redirect('contao/confirm.php');
+        }
+
+        $coupon = \Database::getInstance()->prepare('SELECT * FROM tl_iso_coupon WHERE id=?')->execute($dc->id);
 
         switch ($coupon->status) {
             case 'available':
                 \Database::getInstance()
-                    ->prepare("UPDATE tl_iso_coupon SET status=? WHERE id=?")
+                    ->prepare('UPDATE tl_iso_coupon SET status=? WHERE id=?')
                     ->execute('redeemed', $coupon->id)
                 ;
                 break;
 
             case 'redeemed':
                 \Database::getInstance()
-                     ->prepare("UPDATE tl_iso_coupon SET status=? WHERE id=?")
+                     ->prepare('UPDATE tl_iso_coupon SET status=? WHERE id=?')
                      ->execute('available', $coupon->id)
                 ;
                 break;
@@ -127,6 +145,12 @@ class Callback extends \Backend
             default:
                 $response = new HtmlResponse('', 400);
                 $response->send();
+        }
+
+        list($returnTo, $returnId) = explode('.', \Input::get('return'), 2);
+
+        if ($returnTo === 'iso_orders') {
+            \Controller::redirect(TL_SCRIPT.'?do=iso_orders&amp;act=edit&amp;id='.$returnId.'&rt='.REQUEST_TOKEN);
         }
 
         \Controller::redirect(\System::getReferer());

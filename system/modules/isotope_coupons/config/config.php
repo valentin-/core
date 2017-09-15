@@ -14,6 +14,7 @@
 /**
  * Backend modules
  */
+$GLOBALS['BE_MOD']['isotope']['iso_orders']['tables'][] = 'tl_iso_coupon';
 array_insert($GLOBALS['BE_MOD']['isotope'], 2, [
     'iso_coupons' => [
         'tables' => ['tl_iso_coupon'],
