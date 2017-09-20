@@ -163,19 +163,10 @@ class Callback extends \Backend
      */
     public function onDeleteProductCollection(\DataContainer $dc)
     {
-        $coupons = \Database::getInstance()->prepare("
-            SELECT id 
-            FROM tl_iso_coupon 
-            WHERE product_collection_item IN (
-                SELECT id FROM tl_iso_product_collection_item WHERE pid=?
-            )
-        ")->execute($dc->id);
-
-        if ($coupons->numRows > 0) {
-            \Database::getInstance()->prepare("
-                UPDATE tl_iso_coupon SET status=? WHERE id IN (".implode(',', $coupons->fetchEach('id')).")
-            ")->execute(\Isotope\Model\Coupon::STATUS_CANCELLED);
-        }
+        \Database::getInstance()
+            ->prepare('UPDATE tl_iso_coupon SET status=? WHERE product_collection_id=?')
+            ->execute(Coupon::STATUS_CANCELLED, $dc->id)
+        ;
     }
 
     /**
