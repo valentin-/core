@@ -1,4 +1,9 @@
 language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 php:
   - 5.4
   - 5.5
@@ -14,7 +19,7 @@ sudo: false
 
 install:
     - mysql -e 'CREATE DATABASE isotope_core_testsuite;'
-    - composer update
+    - php -d memory_limit=-1 $(which composer) update
     - composer create-project -s dev contao/core:${CONTAO_VERSION} contao
     - cp -R system/modules/isotope contao/system/modules/isotope
     - cp -R system/modules/isotope_reports contao/system/modules/isotope_reports
