@@ -17,9 +17,12 @@ env:
 
 sudo: false
 
+before_install:
+    - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
 install:
     - mysql -e 'CREATE DATABASE isotope_core_testsuite;'
-    - php -d memory_limit=-1 $(which composer) update
+    - composer update
     - composer create-project -s dev contao/core:${CONTAO_VERSION} contao
     - cp -R system/modules/isotope contao/system/modules/isotope
     - cp -R system/modules/isotope_reports contao/system/modules/isotope_reports
