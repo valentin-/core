@@ -97,11 +97,7 @@ abstract class Shipping extends TypeAgent implements IsotopeShipping, WeightAggr
      * @throws \UnexpectedValueException on unknown product type condition
      */
     public function isAvailable()
-    {
-        
-        echo 'test';
-        die;
-        
+    {       
         if (!$this->enabled && BE_USER_LOGGED_IN !== true) {
             return false;
         }
@@ -121,8 +117,8 @@ abstract class Shipping extends TypeAgent implements IsotopeShipping, WeightAggr
             }
         }
 
-        if (($this->minimum_total > 0 && $this->minimum_total > Isotope::getCart()->getSubtotal())
-            || ($this->maximum_total > 0 && $this->maximum_total < Isotope::getCart()->getSubtotal())
+        if (($this->minimum_total > 0 && $this->minimum_total > Isotope::getCart()->getTotal())
+            || ($this->maximum_total > 0 && $this->maximum_total < Isotope::getCart()->getTotal())
         ) {
             return false;
         }
