@@ -98,6 +98,10 @@ abstract class Shipping extends TypeAgent implements IsotopeShipping, WeightAggr
      */
     public function isAvailable()
     {
+        
+        echo 'test';
+        die;
+        
         if (!$this->enabled && BE_USER_LOGGED_IN !== true) {
             return false;
         }
